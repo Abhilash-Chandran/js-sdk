@@ -53,7 +53,7 @@ describe('http/main', () => {
 
       // Also test for receiving data
       // @ts-ignore
-      expect(mockPubSubSubscribe.mock.calls[0][0]['hello']).toEqual('worldz');
+      expect(mockPubSubSubscribe.mock.calls[0][0]['hello']).toEqual('world');
     });
   });
 
