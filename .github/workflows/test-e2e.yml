@@ -50,6 +50,34 @@ jobs:
     
     - run: npm run test:unit:main
     - run: npm run test:unit:actors
-    - run: npm run test:e2e:grpc:main
-    - run: npm run test:e2e:http:main
-    - run: npm run test:e2e:http:actors
+
+    # We need to do the following assertions as dapr run doesn't fail even if the underlying app exits with error.
+    # This ensures the workflow fails if any of the test fails, with error in logs.
+    # The grep command looks for the text "== APP == npm ERR!" text in the log. If found exits the step with code 1.
+    # This will fail the step.
+    - name: run grpc tests      
+      run: |
+        npm run test:e2e:grpc:main | tee test_grpc_out.txt &&
+        if grep "== APP == npm ERR!" -i test_grpc_out.txt -q; then
+           exit 1;
+        else
+           echo "No error found: All tests passed";
+        fi              
+    
+    - name: run http tests      
+      run: |
+        npm run test:e2e:http:main | tee test_http_out.txt
+        if grep "== APP == npm ERR!" -i test_http_out.txt -q; then
+           exit 1;
+        else
+           echo "No error found: All tests passed";
+        fi
+    
+    - name: run actors tests       
+      run: |
+        npm run test:e2e:http:actors | tee test_http_actors_out.txt
+        if grep "== APP == npm ERR!" -i test_http_actors_out.txt -q; then
+           exit 1;
+        else
+           echo "No error found: All tests passed";
+        fi
