@@ -38,7 +38,7 @@ describe('grpc/main', () => {
 
       // Also test for receiving data
       // @ts-ignore
-      expect(mockBindingReceive.mock.calls[0][0]['hello']).toEqual('worldy');
+      expect(mockBindingReceive.mock.calls[0][0]['hello']).toEqual('world');
     });
   });
 
