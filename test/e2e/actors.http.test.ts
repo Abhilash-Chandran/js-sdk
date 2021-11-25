@@ -216,7 +216,7 @@ describe('http/actors', () => {
       // After that the timer callback will be called
       // In our case, the callback increments the count attribute
       const res1 = await client.actor.invoke("PUT", DemoActorTimerImpl.name, actorId, "getCounter");
-      expect(res1).toEqual(99);
+      expect(res1).toEqual(100);
 
       // Stop the timer
       await client.actor.timerDelete(DemoActorTimerImpl.name, actorId, timerId);
